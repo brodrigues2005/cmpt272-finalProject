@@ -7,9 +7,5 @@ int main(void)
 
     cout << "Sukh" << endl;
 
-    
-
     return 0;
-
-    
 }
