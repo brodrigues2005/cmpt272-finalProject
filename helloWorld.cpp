@@ -3,7 +3,6 @@ using namespace std;
 
 int main(void)
 {
-    cout << "Brett"  << endl;
-    cout << "Namith"  << endl;
+    cout << "Brett" << endl;
     return 0;
 }
