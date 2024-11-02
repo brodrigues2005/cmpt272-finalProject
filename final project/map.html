@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="navbar-brand">MetroVancouver911</div>
+        <ul class="navbar-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="report.html">Report Crime</a></li>
+            <li><a href="map.html">Map</a></li>
+        </ul>
+    </nav>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <h2>Emergency Map</h2>
+        <div id="mapid" style="height: 400px;"></div>
+        
+        <!-- Drop-Down to Filter Based on Emergency Type -->
+        <div class="filter-section">
+            <label for="filterType">Filter by Type:</label>
+            <select id="filterType" onchange="filterReports()">
+                <option value="all">All</option>
+                <option value="fire">Fire</option>
+                <option value="shooting">Shooting</option>
+                <option value="accident">Vehicle Accident</option>
+                <option value="medical">Medical</option>
+            </select>
+        </div>
+
+        <ul id="reportList" class="report-list"></ul>
+    </section>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
