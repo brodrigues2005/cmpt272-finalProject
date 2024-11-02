@@ -5,7 +5,6 @@ int main(void)
 {
     cout << "Brett" << endl;
 
-    cout << "Sukh" << endl;
-
+    cout << "Namith" << endl;
     return 0;
 }
