@@ -36,6 +36,8 @@ async function comparePascodes(passCode1,passCode2){
 }
 
 const Passcode = "ANWSB";
+
+//Pull this information from window popup after they select modify or delete
 var userEntry = "ANWSB";
 
 comparePascodes(Passcode,userEntry).then(result =>{
@@ -44,8 +46,9 @@ comparePascodes(Passcode,userEntry).then(result =>{
 
 
     //if EQUAL === true
-
+    //Delete report or delete report and bring them to form to make modification
 
     //if EQual === false
+    //Window popup saying wrong password was submitted and do nothing
 });
 
