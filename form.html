@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Report - Metro Vancouver Emergency Reporting System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- nav bar -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="metrovan_logo.jpg" alt="Metro Vancouver Logo" class="logo-image">
+            <h1>Metro Vancouver Emergency</h1>
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="form.html">Submit Report</a></li>
+            <li><a href="report.html">Reported Emergencies</a></li>
+        </ul>
+    </nav>
+
+    <!-- form begins here -->
+    <main>
+        <section id="report-form">
+            <h2>Submit an Emergency Report</h2>
+            <form id="emergency-form">
+                <div class="form-group">
+                    <label for="reporting-name">Name:<span class="required-asterisk">*</span></label>
+                    <input type="text" id="reporting-name" name="reporting-name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="reporting-phone">Phone Number:<span class="required-asterisk">*</span></label>
+                    <input type="tel" id="reporting-phone" name="reporting-phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="emergency-type">Nature of Emergency:<span class="required-asterisk">*</span></label>
+                    <select id="emergency-type" name="emergency-type" required>
+                        <option value="">Select</option>
+                        <option value="fire">Fire</option>
+                        <option value="shooting">Shooting</option>
+                        <option value="vehicle-accident">Vehicle Accident</option>
+                        <option value="medical">Medical</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="other-emergency-group" style="display: none;">
+                    <label for="other-emergency">Specify Emergency:<span class="required-asterisk">*</span></label>
+                    <input type="text" id="other-emergency" name="other-emergency" placeholder="Describe the emergency type">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location:<span class="required-asterisk">*</span></label>
+                    <input type="text" id="location" name="location" placeholder="Address or Place Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="latitude">Latitude:</label>
+                    <input type="text" id="latitude" name="latitude" placeholder="Optional">
+                </div>
+
+                <div class="form-group">
+                    <label for="longitude">Longitude:</label>
+                    <input type="text" id="longitude" name="longitude" placeholder="Optional">
+                </div>
+
+                <div class="form-group">
+                    <label for="picture-link">Picture URL:</label>
+                    <input type="url" id="picture-link" name="picture-link" placeholder="Optional">
+                </div>
+
+                <div class="form-group">
+                    <label for="comments">Additional Details:</label>
+                    <textarea id="comments" name="comments" rows="4" placeholder="Describe the emergency..."></textarea>
+                </div>
+
+                <button type="submit">Submit Report</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Metro Vancouver Emergency Reporting System</p>
+        </div>
+    </footer>
+
+    <script src="formScript.js"></script>
+</body>
+</html>
