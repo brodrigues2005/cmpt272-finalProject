@@ -7,6 +7,7 @@ int main(void)
     cout << "Wilson Tu" << endl;
     cout << "Namith" << endl;
     cout << "Angad Hundal likes computers" << endl;
+    cout << "Sukh" << endl; //checking if this works now.
 
 
     return 0;
