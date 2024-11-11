@@ -20,6 +20,9 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
         const latitude = parseFloat(data[0].lat);
         const longitude = parseFloat(data[0].lon);
 
+
+
+        let reports = JSON.parse(localStorage.getItem('reports')) || [];
         const report = {
             id: Date.now(),
             name: document.getElementById('name').value,
@@ -31,10 +34,11 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
             pictureUrl: document.getElementById('pictureUrl').value,
             comments: document.getElementById('comments').value,
             timestamp: new Date().toLocaleString(),
-            status: 'OPEN'
+            status: 'OPEN',
+            index: reports.length
         };
 
-        let reports = JSON.parse(localStorage.getItem('reports')) || [];
+        
         reports.push(report);
         localStorage.setItem('reports', JSON.stringify(reports));
 
@@ -106,8 +110,51 @@ if (mapContainer) {
                 <strong>Location:</strong> ${report.location}<br>
                 <strong>Status:</strong> ${report.status}<br>
                 <strong>Time:</strong> ${report.timestamp}<br>
+                <strong>Id:</strong> ${report.index}<br>
             `;
+
             document.getElementById('reportList').appendChild(listItem);
+
+                
+            listItem.addEventListener("click",async()=>{
+                
+                var userEntry = window.prompt("Please Enter a PassCode");
+
+                var command = "DELETE";
+            
+                const storedPasscode = localStorage.getItem("PASSCODE");
+            
+                const isEqual = await comparePascodes(storedPasscode,userEntry,command);
+                
+                if(isEqual){
+                    
+                    var index = report.index;
+                    var reports = JSON.parse(localStorage.getItem('reports'));
+                    console.log(index);
+                    console.log(reports[0]);
+                    reports.splice(index,1);
+                    
+                    //Update the index of the reports
+                    for(var i=0; i<reports.length; i+=1){
+                        reports[i].index=i;
+                    }
+
+                    console.log(reports[0]);
+                    
+
+                    localStorage.setItem('reports', JSON.stringify(reports));
+
+                    document.getElementById('reportList').removeChild(listItem);
+
+                }
+                
+
+            });
+
+            
+          
+
+            
         });
     }
 
