@@ -110,7 +110,7 @@ if (mapContainer) {
                 <strong>Location:</strong> ${report.location}<br>
                 <strong>Status:</strong> ${report.status}<br>
                 <strong>Time:</strong> ${report.timestamp}<br>
-                <strong>Id:</strong> ${report.index}<br>
+                
             `;
 
             document.getElementById('reportList').appendChild(listItem);
