@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reported Emergencies & Map - Metro Vancouver Emergency Reporting System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <img src="metrovan_logo.jpg" alt="Metro Vancouver Logo" class="logo-image">
+            <h1>Metro Vancouver Emergency</h1>
+        </div>
+        <ul class="navbar-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="form.html">Submit Report</a></li>
+            <li><a href="report.html">Reported Emergencies</a></li>
+        </ul>
+    </nav>
+
+    <!-- Reported Emergencies and Map -->
+    <main>
+        <section id="emergency-section">
+            <div id="map-section">
+                <h2>Emergency Locations Map</h2>
+                <div id="mapid"></div>
+            </div>
+            
+            <div id="reported-emergencies">
+                <h2>Reported Emergencies</h2>
+                
+                <!-- Filter Section -->
+                <div class="filter-section">
+                    <label for="filterType">Filter by Type:</label>
+                    <select id="filterType" onchange="filterReports()">
+                        <option value="all">All</option>
+                        <option value="fire">Fire</option>
+                        <option value="shooting">Shooting</option>
+                        <option value="accident">Vehicle Accident</option>
+                        <option value="medical">Medical</option>
+                    </select>
+                </div>
+
+                <ul id="reportList" class="report-list">
+                    <!-- Emergency reports will be dynamically listed here -->
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2024 Metro Vancouver Emergency Reporting System</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="app.js"></script>
+    <script src="password.js"></script>
+</body>
+</html>
