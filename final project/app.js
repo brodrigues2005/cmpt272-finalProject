@@ -41,16 +41,6 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
         alert('Report submitted successfully!');
         document.getElementById('reportForm').reset();
 
-        // Add a marker to the map
-        if (mapContainer) {
-            const marker = L.marker([latitude, longitude]).addTo(map);
-            marker.bindPopup(`
-                <strong>${report.emergencyType}</strong><br>
-                Location: ${report.location}<br>
-                Status: ${report.status}
-            `);
-            map.setView([latitude, longitude], 13); // Center the map on the new location
-        }
     } catch (error) {
         console.error('Error fetching location:', error);
         alert('An error occurred while fetching the location.');
