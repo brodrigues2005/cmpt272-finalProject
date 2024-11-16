@@ -1,6 +1,7 @@
+
 document.getElementById('reportForm')?.addEventListener('submit', async function (e) {
     e.preventDefault();
-    
+
     const locationInput = document.getElementById('location').value.trim();
     if (!locationInput) {
         alert('Please enter a location.');
@@ -16,13 +17,9 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
             return;
         }
 
-        // Get latitude and longitude from the API response
         const latitude = parseFloat(data[0].lat);
         const longitude = parseFloat(data[0].lon);
 
-
-
-        let reports = JSON.parse(localStorage.getItem('reports')) || [];
         const report = {
             id: Date.now(),
             name: document.getElementById('name').value,
@@ -34,27 +31,15 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
             pictureUrl: document.getElementById('pictureUrl').value,
             comments: document.getElementById('comments').value,
             timestamp: new Date().toLocaleString(),
-            status: 'OPEN',
-            index: reports.length
+            status: 'OPEN'
         };
 
-        
+        let reports = JSON.parse(localStorage.getItem('reports')) || [];
         reports.push(report);
         localStorage.setItem('reports', JSON.stringify(reports));
-
-        alert('Report submitted successfully!');
         document.getElementById('reportForm').reset();
+        window.location.href = 'map.html'; // Redirect to map after editing or adding
 
-        // Add a marker to the map
-        if (mapContainer) {
-            const marker = L.marker([latitude, longitude]).addTo(map);
-            marker.bindPopup(`
-                <strong>${report.emergencyType}</strong><br>
-                Location: ${report.location}<br>
-                Status: ${report.status}
-            `);
-            map.setView([latitude, longitude], 13); // Center the map on the new location
-        }
     } catch (error) {
         console.error('Error fetching location:', error);
         alert('An error occurred while fetching the location.');
@@ -62,33 +47,13 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
 });
 
 const mapContainer = document.getElementById('mapid');
+let markers = {}; // To store markers by report ID
 if (mapContainer) {
     var map = L.map('mapid').setView([49.2, -122.8], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
     }).addTo(map);
-
-    // Locate and center map on the user's current location
-   
-
-    // Event handler for successful location detection
-    map.on('locationfound', function (e) {
-        const radius = e.accuracy / 2; // The accuracy of the location in meters
-
-        // Add a marker at the user's location
-        L.marker(e.latlng).addTo(map)
-            .bindPopup(`You are within ${radius.toFixed(0)} meters from this point.`)
-            .openPopup();
-
-        // Add a circle around the location to show accuracy
-        L.circle(e.latlng, radius).addTo(map);
-    });
-
-    // Event handler for location errors
-    map.on('locationerror', function (e) {
-        alert('Location access denied or unavailable.');
-    });
 
     function loadReports(filterType = 'all') {
         const reports = JSON.parse(localStorage.getItem('reports')) || [];
@@ -110,51 +75,8 @@ if (mapContainer) {
                 <strong>Location:</strong> ${report.location}<br>
                 <strong>Status:</strong> ${report.status}<br>
                 <strong>Time:</strong> ${report.timestamp}<br>
-                
             `;
-
             document.getElementById('reportList').appendChild(listItem);
-
-                
-            listItem.addEventListener("click",async()=>{
-                
-                var userEntry = window.prompt("Please Enter a PassCode");
-
-                var command = "DELETE";
-            
-                const storedPasscode = localStorage.getItem("PASSCODE");
-            
-                const isEqual = await comparePascodes(storedPasscode,userEntry,command);
-                
-                if(isEqual){
-                    
-                    var index = report.index;
-                    var reports = JSON.parse(localStorage.getItem('reports'));
-                    console.log(index);
-                    console.log(reports[0]);
-                    reports.splice(index,1);
-                    
-                    //Update the index of the reports
-                    for(var i=0; i<reports.length; i+=1){
-                        reports[i].index=i;
-                    }
-
-                    console.log(reports[0]);
-                    
-
-                    localStorage.setItem('reports', JSON.stringify(reports));
-
-                    document.getElementById('reportList').removeChild(listItem);
-
-                }
-                
-
-            });
-
-            
-          
-
-            
         });
     }
 
@@ -165,4 +87,48 @@ if (mapContainer) {
 
     loadReports();
 }
-//localStorage.clear(); use this to clear the location from the storage
+
+
+function displayMoreInfo(report) {
+    const modal = document.createElement('div');
+    modal.className = 'info-modal';
+    modal.innerHTML = `
+        <div class="info-modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>Report Details</h3>
+            <p><strong>Name:</strong> ${report.name}</p>
+            <p><strong>Phone:</strong> ${report.phone}</p>
+            <p><strong>Type:</strong> ${report.emergencyType}</p>
+            <p><strong>Location:</strong> ${report.location}</p>
+            <p><strong>Status:</strong> ${report.status}</p>
+            <p><strong>Time:</strong> ${report.timestamp}</p>
+            <p><strong>Comments:</strong> ${report.comments || "N/A"}</p>
+            ${report.pictureUrl ? `<img src="${report.pictureUrl}" alt="Report Image" class="report-image">` : ''}
+        </div>
+    `;
+
+    document.body.appendChild(modal);
+
+    // Close modal on click
+    modal.querySelector('.close-modal').addEventListener('click', () => {
+        modal.remove();
+    });
+}
+
+// Load existing report data for editing
+window.addEventListener('load', () => {
+    const editReportId = localStorage.getItem('editReportId');
+    if (editReportId) {
+        const reports = JSON.parse(localStorage.getItem('reports'));
+        const reportToEdit = reports.find(report => report.id === parseInt(editReportId, 10));
+
+        if (reportToEdit) {
+            document.getElementById('name').value = reportToEdit.name;
+            document.getElementById('phone').value = reportToEdit.phone;
+            document.getElementById('emergencyType').value = reportToEdit.emergencyType;
+            document.getElementById('location').value = reportToEdit.location;
+            document.getElementById('pictureUrl').value = reportToEdit.pictureUrl;
+            document.getElementById('comments').value = reportToEdit.comments;
+        }
+    }
+});
