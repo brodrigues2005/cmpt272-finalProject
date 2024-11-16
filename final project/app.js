@@ -24,7 +24,6 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
         const editReportId = localStorage.getItem('editReportId');
         
         if (editReportId) {
-            // Update the existing report by ID
             const reportIndex = reports.findIndex(report => report.id === parseInt(editReportId, 10));
             if (reportIndex > -1) {
                 reports[reportIndex] = {
@@ -45,7 +44,6 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
                 localStorage.removeItem('editReportId');
             }
         } else {
-            // Add a new report if not in edit mode
             const newReport = {
                 id: Date.now(),
                 name: document.getElementById('name').value,
@@ -65,13 +63,27 @@ document.getElementById('reportForm')?.addEventListener('submit', async function
 
         localStorage.setItem('reports', JSON.stringify(reports));
         document.getElementById('reportForm').reset();
-        window.location.href = 'map.html'; // Redirect to map after editing or adding
+        window.location.href = 'map.html';
 
     } catch (error) {
         console.error('Error fetching location:', error);
         alert('An error occurred while fetching the location.');
     }
 });
+
+const redIcon = L.icon({
+    iconUrl: 'red-marker-icon.png', // Path to the red marker icon
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34]
+});
+
+const defaultIcon = L.icon({
+    iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+    // iconSize: [25,41],
+    // iconAnchor: [12,41],
+    // popupAnchor: [1,-34],
+})
 
 const mapContainer = document.getElementById('mapid');
 let markers = {}; // To store markers by report ID
@@ -86,25 +98,29 @@ if (mapContainer) {
         const reports = JSON.parse(localStorage.getItem('reports')) || [];
         document.getElementById('reportList').innerHTML = '';
 
-        // Clear existing markers on the map
         for (let id in markers) {
             map.removeLayer(markers[id]);
         }
-        markers = {}; // Reset markers object
-        
+        markers = {};
+
         reports
             .filter(report => filterType === 'all' || report.emergencyType === filterType)
             .forEach(report => {
                 if (report.latitude && report.longitude) {
                     const marker = L.marker([report.latitude, report.longitude]).addTo(map);
-                    marker.bindPopup(`
-                        <strong>${report.emergencyType}</strong><br>
-                        Location: ${report.location}<br>
-                        Status: ${report.status}
-                    `);
-                    markers[report.id] = marker; // Store marker by report ID
+                    // marker.bindPopup(`
+                    //     <strong>${report.emergencyType}</strong><br>
+                    //     Location: ${report.location}<br>
+                    //     Status: ${report.status}
+                    // `);
+                    marker.addEventListener('click',()=>{
+                        displayMoreInfo(report);
+                        markers[report.id].setIcon(redIcon);
+                    }
+                    );
+                    markers[report.id] = marker;
                 }
-    
+
                 const listItem = document.createElement('li');
                 listItem.className = 'report-item';
                 listItem.innerHTML = `
@@ -119,7 +135,6 @@ if (mapContainer) {
                     <button class="more-info-btn">More Info</button>
                 `;
 
-                // Status checkbox functionality
                 listItem.querySelector('.status-checkbox').addEventListener('change', async (e) => {
                     if (e.target.checked) {
                         const userEntry = prompt("You are about to change the status to 'RESOLVED'. Please enter the password:");
@@ -129,22 +144,20 @@ if (mapContainer) {
                         if (isEqual) {
                             report.status = 'RESOLVED';
                             localStorage.setItem('reports', JSON.stringify(reports));
-                            loadReports(filterType); // Refresh the list
+                            loadReports(filterType);
                             alert("Status changed to 'RESOLVED'.");
                         } else {
                             alert("Incorrect password. Status not changed.");
                             e.target.checked = false;
                         }
                     } else {
-                        // Revert status to original on uncheck
                         report.status = report.status === 'RESOLVED' ? 'UPDATED' : 'OPEN';
                         localStorage.setItem('reports', JSON.stringify(reports));
-                        loadReports(filterType); // Refresh the list
+                        loadReports(filterType);
                         alert("Status reverted.");
                     }
                 });
 
-                // Edit functionality with password confirmation
                 listItem.querySelector('.edit-btn').addEventListener('click', async () => {
                     const userEntry = prompt("Please enter the password to edit this entry:");
                     const storedPasscode = localStorage.getItem("PASSCODE");
@@ -161,8 +174,7 @@ if (mapContainer) {
                         alert("Incorrect password. Edit not allowed.");
                     }
                 });
-    
-                // Delete functionality with password prompt
+
                 listItem.querySelector('.delete-btn').addEventListener('click', async () => {
                     const userEntry = prompt("Please enter the password to delete this entry:");
                     const storedPasscode = localStorage.getItem("PASSCODE");
@@ -172,10 +184,9 @@ if (mapContainer) {
                     if (isEqual) {
                         const updatedReports = reports.filter(r => r.id !== report.id);
                         localStorage.setItem('reports', JSON.stringify(updatedReports));
-                        loadReports(filterType); // Refresh the list
+                        loadReports(filterType);
                         alert("Report deleted successfully.");
 
-                        // Remove the marker from the map
                         if (markers[report.id]) {
                             map.removeLayer(markers[report.id]);
                             delete markers[report.id];
@@ -185,7 +196,6 @@ if (mapContainer) {
                     }
                 });
 
-                // More Info functionality
                 listItem.querySelector('.more-info-btn').addEventListener('click', () => {
                     displayMoreInfo(report);
                 });
@@ -204,10 +214,18 @@ if (mapContainer) {
 
 
 function displayMoreInfo(report) {
-    const modal = document.createElement('div');
-    modal.className = 'info-modal';
+    let modal = document.querySelector('.info-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.className = 'info-modal';
+        document.body.appendChild(modal);
+    }
+
+   
+    
+    
     modal.innerHTML = `
-        <div class="info-modal-content">
+        <div class="info-modal-content" style="margin-left:-50vw; margin-top:38vw;">
             <span class="close-modal">&times;</span>
             <h3>Report Details</h3>
             <p><strong>Name:</strong> ${report.name}</p>
@@ -223,13 +241,17 @@ function displayMoreInfo(report) {
 
     document.body.appendChild(modal);
 
-    // Close modal on click
+    if (markers[report.id]) {
+        markers[report.id].setIcon(redIcon);
+    }
+
     modal.querySelector('.close-modal').addEventListener('click', () => {
         modal.remove();
+        markers[report.id].setIcon(defaultIcon);
+        
     });
 }
 
-// Load existing report data for editing
 window.addEventListener('load', () => {
     const editReportId = localStorage.getItem('editReportId');
     if (editReportId) {
@@ -246,3 +268,4 @@ window.addEventListener('load', () => {
         }
     }
 });
+
