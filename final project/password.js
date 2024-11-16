@@ -103,10 +103,5 @@ var command = "delete";
 //     if(Equal == false){
 //         window.prompt("Error: Wrong Password inputed");
 //     }
-<<<<<<< HEAD
-
-// });
-=======
->>>>>>> Namith
 
 // });
