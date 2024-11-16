@@ -10,54 +10,72 @@
 
     <!-- Navigation Bar -->
     <nav class="navbar">
-        <div class="navbar-brand">MetroVancouver911</div>
+        <div class="navbar-brand">
+            <a href="https://metrovancouver.org/services/emergency-management/9-1-1-service" target="_blank">
+                <img src="logo.jpg" alt="Metro Van 911 Logo" class="navbar-logo">
+            </a>
+            <a href="https://metrovancouver.org/" target="_blank" style="color: white; text-decoration: none;">
+                Metro Vancouver Emergency
+            </a>
+        </div>
         <ul class="navbar-links">
             <li><a href="index.html">Home</a></li>
             <li><a href="report.html">Report Crime</a></li>
             <li><a href="map.html">Map</a></li>
+            <li><a href="about.html">About</a></li>
+
         </ul>
     </nav>
 
-    <!-- Report Form Section -->
-    <section class="report-section">
-        <h2>Report an Emergency</h2>
-        <form id="reportForm">
-            <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" id="name" required placeholder="Enter your name">
-            </div>
-            <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input type="tel" id="phone" required placeholder="Enter your phone number">
-            </div>
-            <div class="form-group">
-                <label for="emergencyType">Emergency Type</label>
-                <select id="emergencyType" required>
-                    <option value="">Select an emergency type</option>
-                    <option value="fire">Fire</option>
-                    <option value="shooting">Shooting</option>
-                    <option value="accident">Vehicle Accident</option>
-                    <option value="medical">Medical</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <label for="location">Location</label>
-                <input type="text" id="location" required placeholder="Enter the location">
-            </div>
-            <div class="form-group">
-                <label for="pictureUrl">Picture Link (optional)</label>
-                <input type="url" id="pictureUrl" placeholder="Enter a link to an image (optional)">
-            </div>
-            <div class="form-group">
-                <label for="comments">Comments</label>
-                <textarea id="comments" placeholder="Additional details"></textarea>
-            </div>
-            <button type="submit" class="btn green-btn">Submit Report</button>
-        </form>
-        <button onclick="location.href='map.html'" class="btn proceed-btn">Proceed to Map to Find Emergency Centers</button>
-    </section>
+    <!-- Main Content Wrapper for Scrolling -->
+    <div class="content">
+        <!-- Report Form Section -->
+        <section class="report-section">
+            <h2>Report an Emergency</h2>
+            <form id="reportForm">
+                <div class="form-group">
+                    <label for="name">First and Last Name</label>
+                    <input type="text" id="name" required placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required placeholder="Enter your phone number">
+                </div>
+                <div class="form-group">
+                    <label for="emergencyType">Emergency Type</label>
+                    <select id="emergencyType" required>
+                        <option value="">Select an emergency type</option>
+                        <option value="fire">Fire</option>
+                        <option value="shooting">Shooting</option>
+                        <option value="accident">Vehicle Accident</option>
+                        <option value="medical">Medical</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" required placeholder="Enter the location">
+                </div>
+                <div class="form-group">
+                    <label for="pictureUrl">Picture Link (optional)</label>
+                    <input type="url" id="pictureUrl" placeholder="Enter a link to an image (optional)">
+                </div>
+                <div class="form-group">
+                    <label for="comments">Comments</label>
+                    <textarea id="comments" placeholder="Additional details"></textarea>
+                </div>
+                <button type="submit" class="btn green-btn">Submit Report</button>
+            </form>
+            <button onclick="location.href='map.html'" class="btn proceed-btn">Proceed to Map to Find Emergency Centers</button>
+        </section>
+    </div>
 
     <script src="app.js"></script>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>© 2024 Metro Vancouver Emergency Reporting System. Call 911 for Immediate Assistance.</p>
+    </footer>
+    
 </body>
 </html>
-

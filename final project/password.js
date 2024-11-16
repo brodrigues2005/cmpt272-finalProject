@@ -37,13 +37,13 @@ async function comparePascodes(passCode1,passCode2, command){
     const Hash2 = await fetchHash(passCode2);
 
     
-    if(Hash1 === Hash2){
-        window.alert("correct");
-    }
+    // if(Hash1 === Hash2){
+    //     window.alert("correct");
+    // }
 
-    else{
-        window.alert("incorrect");
-    }
+    // else{
+    //     window.alert("incorrect");
+    // }
    return Hash1 === Hash2;
     
 }
@@ -105,4 +105,3 @@ var command = "delete";
 //     }
 
 // });
-
