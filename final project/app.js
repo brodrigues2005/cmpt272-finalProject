@@ -108,11 +108,16 @@ if (mapContainer) {
             .forEach(report => {
                 if (report.latitude && report.longitude) {
                     const marker = L.marker([report.latitude, report.longitude]).addTo(map);
-                    marker.bindPopup(`
-                        <strong>${report.emergencyType}</strong><br>
-                        Location: ${report.location}<br>
-                        Status: ${report.status}
-                    `);
+                    // marker.bindPopup(`
+                    //     <strong>${report.emergencyType}</strong><br>
+                    //     Location: ${report.location}<br>
+                    //     Status: ${report.status}
+                    // `);
+                    marker.addEventListener('click',()=>{
+                        displayMoreInfo(report);
+                        markers[report.id].setIcon(redIcon);
+                    }
+                    );
                     markers[report.id] = marker;
                 }
 
@@ -209,8 +214,14 @@ if (mapContainer) {
 
 
 function displayMoreInfo(report) {
-    const modal = document.createElement('div');
-    modal.className = 'info-modal';
+    let modal = document.querySelector('.info-modal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.className = 'info-modal';
+        document.body.appendChild(modal);
+    }
+    
+    
     modal.innerHTML = `
         <div class="info-modal-content">
             <span class="close-modal">&times;</span>
