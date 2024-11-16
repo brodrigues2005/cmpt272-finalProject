@@ -220,10 +220,12 @@ function displayMoreInfo(report) {
         modal.className = 'info-modal';
         document.body.appendChild(modal);
     }
+
+   
     
     
     modal.innerHTML = `
-        <div class="info-modal-content">
+        <div class="info-modal-content" style="margin-left:-50vw; margin-top:38vw;">
             <span class="close-modal">&times;</span>
             <h3>Report Details</h3>
             <p><strong>Name:</strong> ${report.name}</p>
