@@ -152,7 +152,7 @@ if (mapContainer) {
                     const isEqual = await comparePascodes(storedPasscode, userEntry, "EDIT");
 
                     if (isEqual) {
-                        const confirmEdit = confirm("Are you sure you want to edit this entry?");
+                        const confirmEdit = confirm("Correct! Are you sure you want to edit this entry?");
                         if (confirmEdit) {
                             localStorage.setItem('editReportId', report.id);
                             window.location.href = 'report.html';
