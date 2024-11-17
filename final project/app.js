@@ -252,20 +252,3 @@ function displayMoreInfo(report) {
     });
 }
 
-window.addEventListener('load', () => {
-    const editReportId = localStorage.getItem('editReportId');
-    if (editReportId) {
-        const reports = JSON.parse(localStorage.getItem('reports'));
-        const reportToEdit = reports.find(report => report.id === parseInt(editReportId, 10));
-
-        if (reportToEdit) {
-            document.getElementById('name').value = reportToEdit.name;
-            document.getElementById('phone').value = reportToEdit.phone;
-            document.getElementById('emergencyType').value = reportToEdit.emergencyType;
-            document.getElementById('location').value = reportToEdit.location;
-            document.getElementById('pictureUrl').value = reportToEdit.pictureUrl;
-            document.getElementById('comments').value = reportToEdit.comments;
-        }
-    }
-});
-
