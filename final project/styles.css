@@ -549,9 +549,11 @@ body {
 }
 
 .report-image {
-    width: 100%;
+    width: 30%;
+    float:right;
     height: auto;
-    margin-top: 10px;
+    margin-top: -150px;
+    margin-right: 60px;
 }
 
 /* Checkbox Styling */
