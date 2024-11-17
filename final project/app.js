@@ -109,10 +109,12 @@ if (mapContainer) {
                 if (report.latitude && report.longitude) {
                     const marker = L.marker([report.latitude, report.longitude]).addTo(map);
                     // marker.bindPopup(`
+                        
                     //     <strong>${report.emergencyType}</strong><br>
                     //     Location: ${report.location}<br>
                     //     Status: ${report.status}
-                    // `);
+                       
+                    // `,{offset:[0,-10]});
                     marker.addEventListener('click',()=>{
                         displayMoreInfo(report);
                         markers[report.id].setIcon(redIcon);
@@ -147,7 +149,9 @@ if (mapContainer) {
                             loadReports(filterType);
                             alert("Status changed to 'RESOLVED'.");
                         } else {
-                            alert("Incorrect password. Status not changed.");
+                            if(typeof userEntry === "string"){
+                                alert("Incorrect password. Status not changed.");
+                            }
                             e.target.checked = false;
                         }
                     } else {
@@ -171,7 +175,10 @@ if (mapContainer) {
                             window.location.href = 'report.html';
                         }
                     } else {
-                        alert("Incorrect password. Edit not allowed.");
+                        if(typeof userEntry === "string"){
+                            alert("Incorrect password. Edit not allowed.");
+                        }
+                        
                     }
                 });
 
@@ -192,7 +199,10 @@ if (mapContainer) {
                             delete markers[report.id];
                         }
                     } else {
-                        alert("Incorrect password. Report not deleted.");
+                        if(typeof userEntry === "string"){
+                            alert("Incorrect password. Report not deleted.");
+                        }
+                        
                     }
                 });
 
@@ -225,8 +235,9 @@ function displayMoreInfo(report) {
     
     
     modal.innerHTML = `
-        <div class="info-modal-content" style="margin-left:-50vw; margin-top:38vw;">
+        <div class="info-modal-content">
             <span class="close-modal">&times;</span>
+            ${report.pictureUrl ? `<img src="${report.pictureUrl}" alt="Report Image" class="report-image">` : ''}
             <h3>Report Details</h3>
             <p><strong>Name:</strong> ${report.name}</p>
             <p><strong>Phone:</strong> ${report.phone}</p>
@@ -234,8 +245,8 @@ function displayMoreInfo(report) {
             <p><strong>Location:</strong> ${report.location}</p>
             <p><strong>Status:</strong> ${report.status}</p>
             <p><strong>Time:</strong> ${report.timestamp}</p>
-            <p><strong>Comments:</strong> ${report.comments || "N/A"}</p>
-            ${report.pictureUrl ? `<img src="${report.pictureUrl}" alt="Report Image" class="report-image">` : ''}
+            <p><strong>Comments:<br></strong> ${report.comments || "N/A"}</p>
+          
         </div>
     `;
 
